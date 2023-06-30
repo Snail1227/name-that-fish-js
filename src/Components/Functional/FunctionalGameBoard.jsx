@@ -1,6 +1,7 @@
 import "./styles/game-board.css";
 import { Images } from "../../assets/Images";
-import { incorrectCount } from './FunctionalScoreBoard';
+import { useState } from 'react';
+
 
 const initialFishes = [
   {
@@ -22,7 +23,9 @@ const initialFishes = [
 ];
 
 
-export function FunctionalGameBoard({guessFishName, setGuessFishName, correctCount, setCorrectCount, incorrectCount, setIncorrectCount}) {
+export function FunctionalGameBoard({ onIndexChange }) {
+  const [guessFishName, setGuessFishName] = useState('');
+  const nextFishToName = initialFishes[0];
 
   const handleChanges = (event) => {
     setGuessFishName(event.target.value);
@@ -30,22 +33,20 @@ export function FunctionalGameBoard({guessFishName, setGuessFishName, correctCou
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-
     if (guessFishName.trim() === '') {
       setGuessFishName('');
       return;
     }
 
-    if (guessFishName == nextFishToName.name) {
-      setCorrectCount(correctCount + 1);
-    } else {
-      setIncorrectCount(incorrectCount + 1);
+    if (guessFishName === nextFishToName.name) {
+      const index = initialFishes.findIndex(fish => fish.name === guessFishName);
+      onIndexChange(index);
     }
 
     setGuessFishName('');
   }
 
-  const nextFishToName = initialFishes[2];
+  
   return (
     <div id="game-board">
       <div id="fish-container">
