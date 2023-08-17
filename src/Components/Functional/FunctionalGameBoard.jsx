@@ -1,7 +1,6 @@
 import "./styles/game-board.css";
 import { Images } from "../../assets/Images";
-import { useState } from 'react';
-
+import { useState } from "react";
 
 const initialFishes = [
   {
@@ -23,26 +22,25 @@ const initialFishes = [
 ];
 
 
-export function FunctionalGameBoard({ onIndexChange }) {
+export function FunctionalGameBoard( {setFishName} ) {
   const [guessFishName, setGuessFishName] = useState('');
-  const nextFishToName = initialFishes[0];
-
-  const handleChanges = (event) => {
-    setGuessFishName(event.target.value);
-  }
+  const [guessCount, setGuessCount] = useState(0);
+  
+  const nextFishToName = initialFishes[guessCount];
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    if (guessFishName.trim() === '') {
-      setGuessFishName('');
-      return;
-    }
+    setGuessFishName(event.target.value);
 
-    if (guessFishName === nextFishToName.name) {
-      const index = initialFishes.findIndex(fish => fish.name === guessFishName);
-      onIndexChange(index);
+    if (guessFishName == nextFishToName.name) {
+      console.log("i wrote RIGHT " + guessFishName);
+      setGuessCount((prevCount) => prevCount + 1);
+      setFishName(guessFishName);
+    } else if(guessFishName != nextFishToName.name) {
+      console.log("i wrote WRONG " + guessFishName);
+      setGuessCount((prevCount) => prevCount + 1);
+      setFishName(-1);
     }
-
     setGuessFishName('');
   }
 
@@ -54,7 +52,14 @@ export function FunctionalGameBoard({ onIndexChange }) {
       </div>
       <form id="fish-guess-form" onSubmit={handleSubmit}>
         <label htmlFor="fish-guess">What kind of fish is this?</label>
-        <input type="text" name="fish-guess" value={guessFishName} onChange={handleChanges} />
+        <input 
+          type="text" 
+          name="fish-guess" 
+          value={guessFishName} 
+          onChange={(e) => {
+            setGuessFishName(e.target.value);
+            }}
+          />
         <input type="submit" value="Submit" />
       </form>
     </div>

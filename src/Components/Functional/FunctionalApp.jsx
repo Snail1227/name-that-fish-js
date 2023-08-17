@@ -4,20 +4,19 @@ import { FunctionalFinalScore } from "./FunctionalFinalScore";
 import { useState } from "react";
 
 export function FunctionalApp() {
-  const [currentIndex, setCurrentIndex] = useState(null);
+  const [fishIndex, setFishIndex] = useState('');
+  const [fishName, setFishName] = useState('');
 
-  const handelIndexChange = (newIndex) => { 
-    setCurrentIndex(newIndex);
-  }
 
-  
   return ( 
     <>
       <FunctionalScoreBoard 
-        currentIndex={currentIndex}
+        index={fishIndex}
+        fish={fishName}
         />
       <FunctionalGameBoard 
-        onIndexChange={handelIndexChange}
+        setFishIndex={(i) => setFishIndex(i)}
+        setFishName={(f) => setFishName(f)}
         />
       {false && <FunctionalFinalScore />}
     </>

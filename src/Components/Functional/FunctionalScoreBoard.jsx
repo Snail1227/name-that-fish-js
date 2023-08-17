@@ -1,18 +1,21 @@
 import "./styles/score-board.css";
+
 //  Where the score is presented
 
-const incorrectCount = 0;
-const correctCount = 0;
-let newCorrectCount = 0;
+let incorrectCount = 0;
+let correctCount = 0;
+
 const answersLeft = ["trout", "salmon", "tuna", "shark"];
 
-export function FunctionalScoreBoard({ currentIndex }) {
+export function FunctionalScoreBoard( {fish} ) {
 
-  console.log(!currentIndex);
-  if (currentIndex) {
-    const newCorrectCount = correctCount + 1;
-    answersLeft.slice(currentIndex, 1);
-    return newCorrectCount;
+  if (fish) {
+    answersLeft.splice(0, 1);
+    if (fish == answersLeft[0]) {
+      correctCount++;
+    } else if(fish != answersLeft[0]) {
+      incorrectCount++;
+    }
   }
 
   return (
@@ -25,7 +28,7 @@ export function FunctionalScoreBoard({ currentIndex }) {
           </div>
         ))}
       </div>
-      <div>Correct ✅: {newCorrectCount}</div>
+      <div>Correct ✅: {correctCount}</div>
     </div>
   );
 }
