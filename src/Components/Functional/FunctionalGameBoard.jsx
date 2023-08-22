@@ -1,46 +1,17 @@
 import "./styles/game-board.css";
-import { Images } from "../../assets/Images";
+
 import { useState } from "react";
 
-const initialFishes = [
-  {
-    name: "trout",
-    url: Images.trout,
-  },
-  {
-    name: "salmon",
-    url: Images.salmon,
-  },
-  {
-    name: "tuna",
-    url: Images.tuna, 
-  },
-  {
-    name: "shark",
-    url: Images.shark,
-  },
-];
 
 
-export function FunctionalGameBoard( {setFishName} ) {
+
+export function FunctionalGameBoard( {fishData, handleAnswer} ) {
   const [guessFishName, setGuessFishName] = useState('');
-  const [guessCount, setGuessCount] = useState(0);
   
-  const nextFishToName = initialFishes[guessCount];
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    setGuessFishName(event.target.value);
-
-    if (guessFishName == nextFishToName.name) {
-      console.log("i wrote RIGHT " + guessFishName);
-      setGuessCount((prevCount) => prevCount + 1);
-      setFishName(guessFishName);
-    } else if(guessFishName != nextFishToName.name) {
-      console.log("i wrote WRONG " + guessFishName);
-      setGuessCount((prevCount) => prevCount + 1);
-      setFishName(-1);
-    }
+    handleAnswer(guessFishName)
     setGuessFishName('');
   }
 
@@ -48,7 +19,7 @@ export function FunctionalGameBoard( {setFishName} ) {
   return (
     <div id="game-board">
       <div id="fish-container">
-        <img src={nextFishToName.url} alt={nextFishToName.name} />
+        <img src={fishData.url} alt={fishData.name} />
       </div>
       <form id="fish-guess-form" onSubmit={handleSubmit}>
         <label htmlFor="fish-guess">What kind of fish is this?</label>
